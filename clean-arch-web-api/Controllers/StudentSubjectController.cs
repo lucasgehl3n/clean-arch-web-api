@@ -1,24 +1,26 @@
 ﻿using clean_arch_web_api.Domain.Exceptions;
+using clean_arch_web_api.Domain.Interfaces.Usecases;
 using clean_arch_web_api.ViewModel;
 using CleanArch.Domain.Interfaces.Usecases;
+using CleanArch.Usecases;
 using Microsoft.AspNetCore.Mvc;
 
 namespace clean_arch_web_api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class CourseSubjectController
+    public class StudentSubjectController
     {
-        private readonly ICourseSubjectUsecases _courseSubjectUsecases;
-        public CourseSubjectController(ICourseSubjectUsecases curriculumSubjectUsecases)
+        private readonly IStudentSubjectUsecases _studentSubjectUsecases;
+        public StudentSubjectController(IStudentSubjectUsecases studentSubjectUsecases)
         {
-            _courseSubjectUsecases = curriculumSubjectUsecases;
+            _studentSubjectUsecases = studentSubjectUsecases;
         }
 
         [HttpGet()]
         public IActionResult Get()
         {
-            var result = new { result = _courseSubjectUsecases.GetAll() };
+            var result = new { result = _studentSubjectUsecases.GetAll().ToList() };
             return new JsonResult(result);
         }
 
@@ -26,18 +28,28 @@ namespace clean_arch_web_api.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            var result = new { result = _courseSubjectUsecases.Get(id) };
+            var result = new { result = _studentSubjectUsecases.Get(id) };
+            return new JsonResult(result);
+        }
+
+
+
+        [HttpGet("/GetSubjectsStudent/{id}")]
+        public IActionResult GetSubjectsStudent(int id)
+        {
+            var subjects = _studentSubjectUsecases.GetAllSubjects(id);
+            var result = new { result = new { subjects } };
             return new JsonResult(result);
         }
 
         [HttpPost]
-        public IActionResult Save(CourseSubjectViewModel entity)
+        public IActionResult Save(StudentSubjectViewModel entity)
         {
             try
             {
                 var subjectEntity = entity.ToEntity();
-                _courseSubjectUsecases.Save(subjectEntity);
-                var result = new { success = true, result = new CourseSubjectViewModel(subjectEntity) };
+                _studentSubjectUsecases.Save(subjectEntity);
+                var result = new { success = true, result = new StudentSubjectViewModel(subjectEntity) };
                 return new JsonResult(result);
             }
             catch (Exception ex)
@@ -47,27 +59,18 @@ namespace clean_arch_web_api.Controllers
             }
         }
 
-        [HttpGet("/GetSubjectsCourse/{id}")]
-        public IActionResult GetSubjectsCourse(int id)
-        {
-            var subjects = _courseSubjectUsecases.GetAllSubjects(id);
-            var result = new { result = new { subjects } };
-            return new JsonResult(result);
-        }
-
-
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
             try
             {
-                var courseSubject = _courseSubjectUsecases.Get(id);
-                _courseSubjectUsecases.ValidateDelete(courseSubject);
-                _courseSubjectUsecases.Delete(courseSubject);
+                var studentSubject = _studentSubjectUsecases.Get(id);
+                _studentSubjectUsecases.ValidateDelete(studentSubject);
+                _studentSubjectUsecases.Delete(studentSubject);
                 var result = new { success = true };
                 return new JsonResult(result);
             }
-            catch(BusinessRule ex)
+            catch (BusinessRule ex)
             {
                 return new JsonResult(new { success = false, message = ex.Message });
             }

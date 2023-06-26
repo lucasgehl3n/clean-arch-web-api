@@ -1,4 +1,8 @@
 using clean_arch_web_api.Controllers;
+using clean_arch_web_api.Domain.Entities;
+using clean_arch_web_api.Domain.Interfaces.Usecases;
+using clean_arch_web_api.Domain.Persintence;
+using clean_arch_web_api.Domain.Usecases;
 using CleanArch.Domain.Database;
 using CleanArch.Domain.Entities;
 using CleanArch.Domain.Interfaces.Database;
@@ -28,6 +32,7 @@ builder.Services.AddScoped<IRepository<Registration>, RegistrationRepository>();
 builder.Services.AddScoped<IRepository<Subject>, SubjectRepository>();
 builder.Services.AddScoped<IRepository<CourseSubject>, CourseSubjectRepository>();
 builder.Services.AddScoped<IRepository<Curriculum>, CurriculumRepository>();
+builder.Services.AddScoped<IRepository<StudentSubject>, StudentSubjectRepository>();
 builder.Services.AddScoped<IRegistrationRepository, RegistrationRepository>();
 builder.Services.AddScoped<ICurriculumRepository, CurriculumRepository>();
 
@@ -37,14 +42,8 @@ builder.Services.AddScoped<IStudentUsecases, StudentUsecases>();
 builder.Services.AddScoped<IRegistrationUsecases, RegistrationUsecases>();
 builder.Services.AddScoped<ISubjectUsecases, SubjectUsecases>();
 builder.Services.AddScoped<ICurriculumUsecases, CurriculumUsecases>();
-builder.Services.AddScoped<ICourseSubjectUsecases, CurriculumSubjectUsecases>();
-
-//Controllers
-//builder.Services.AddScoped<ICourseController, CourseController>();
-//builder.Services.AddScoped<IStudentController, StudentController>();
-//builder.Services.AddScoped<ISubjectController, SubjectsController>();
-//builder.Services.AddScoped<ICurriculumController, CurriculumController>();
-
+builder.Services.AddScoped<ICourseSubjectUsecases, CourseSubjectUsecases>();
+builder.Services.AddScoped<IStudentSubjectUsecases, StudentSubjectUsecases>();
 
 builder.Services.AddCors(options =>
 {

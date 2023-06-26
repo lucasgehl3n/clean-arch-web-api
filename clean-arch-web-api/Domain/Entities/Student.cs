@@ -10,7 +10,6 @@ namespace CleanArch.Domain.Entities
 {
     public class Student: AbstractEntity
     {
-        public int id { get; set; }
         public string name { get; set; }
         public int courseId { get; set; }
     }

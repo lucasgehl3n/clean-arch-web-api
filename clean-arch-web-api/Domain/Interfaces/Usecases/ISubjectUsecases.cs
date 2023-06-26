@@ -9,6 +9,6 @@ namespace CleanArch.Domain.Interfaces.Usecases
 {
     public interface ISubjectUsecases : IEntityUsecases<Subject>
     {
-        List<Subject> GetByCurriculum(int curriculumId);
+
     }
 }

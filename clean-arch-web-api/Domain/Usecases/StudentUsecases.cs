@@ -25,13 +25,5 @@ namespace CleanArch.Usecases
             var list = base.GetAll().OrderBy(x => x.name).ToList();
             return list;
         }
-
-        public void AddSubject(Student student, Subject subject)
-        {
-            //student.Subjects.Add(subject);
-            //subject.Students.Add(student);
-            _repository.Update(student);
-            _subjectRepository.Update(subject);
-        }
     }
 }

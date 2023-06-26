@@ -15,10 +15,5 @@ namespace CleanArch.Usecases
         public SubjectUsecases(IRepository<Subject> repository) : base(repository)
         {
         }
-
-        public List<Subject> GetByCurriculum(int curriculumId)
-        {
-            return _repository.GetAll().ToList();
-        }
     }
 }

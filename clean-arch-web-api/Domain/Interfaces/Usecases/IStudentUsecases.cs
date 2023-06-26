@@ -9,6 +9,5 @@ namespace CleanArch.Domain.Interfaces.Usecases
 {
     public interface IStudentUsecases : IEntityUsecases<Student>
     {
-        void AddSubject(Student student, Subject subject);
     }
 }

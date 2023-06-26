@@ -2,6 +2,7 @@ using CleanArch.Domain.Interfaces.Usecases;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using clean_arch_web_api.ViewModel;
+using CleanArch.Usecases;
 
 namespace clean_arch_web_api.Controllers
 {
@@ -32,14 +33,6 @@ namespace clean_arch_web_api.Controllers
             return new JsonResult(result);
         }
 
-        
-        [HttpGet("/GetSubjectsCourse/{id}")]
-        public IActionResult GetSubjectsCourse(int id)
-        {
-            var subjects = _courseUsecases.GetAllSubjects(id);
-            var result = new { result = new { subjects } };
-            return new JsonResult(result);
-        }
 
         [HttpPost]
         public IActionResult Save(CourseViewModel course)
@@ -55,6 +48,23 @@ namespace clean_arch_web_api.Controllers
             {
                 Console.WriteLine(ex.Message);
                 return new JsonResult(new { success = false, message = "Ocorreu um erro durante o salvamento dos dados" });
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            try
+            {
+                var courseSubject = _courseUsecases.Get(id);
+                _courseUsecases.Delete(courseSubject);
+                var result = new { success = true };
+                return new JsonResult(result);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return new JsonResult(new { success = false, message = "Ocorreu um erro durante a exclusão da matrícula" });
             }
         }
     }

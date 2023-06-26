@@ -30,6 +30,7 @@ namespace clean_arch_web_api.Controllers
             return new JsonResult(result);
         }
 
+
         [HttpPost]
         public IActionResult Save(SubjectViewModel entity)
         {
@@ -44,6 +45,23 @@ namespace clean_arch_web_api.Controllers
             {
                 Console.WriteLine(ex.Message);
                 return new JsonResult(new { success = false, message = "Ocorreu um erro durante o salvamento dos dados" });
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            try
+            {
+                var courseSubject = _subjectUsecases.Get(id);
+                _subjectUsecases.Delete(courseSubject);
+                var result = new { success = true };
+                return new JsonResult(result);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return new JsonResult(new { success = false, message = "Ocorreu um erro durante a exclusão da matrícula" });
             }
         }
     }

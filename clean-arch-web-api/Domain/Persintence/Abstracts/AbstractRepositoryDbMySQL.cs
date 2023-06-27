@@ -1,19 +1,19 @@
+﻿using clean_arch_web_api.Domain.Database;
+using clean_arch_web_api.Domain.Interfaces.Repository;
 using CleanArch.Domain.Abstracts;
 using CleanArch.Domain.Interfaces.Database;
 using CleanArch.Domain.Interfaces.Repository;
-using Npgsql;
-using System;
-using System.Collections.Generic;
-using System.Reflection;
 using Dapper;
-using System.Linq;
+using MySqlConnector;
+using Npgsql;
+using System.Reflection;
 
-namespace CleanArch.Persintence.Abstracts
+namespace clean_arch_web_api.Domain.Persintence.Abstracts
 {
-    public abstract class AbstractRepositoryDb<ImplementedClass> : IRepository<ImplementedClass> where ImplementedClass : AbstractEntity
+    public class AbstractRepositoryDbMySQL<ImplementedClass> : IAbstractRepositoryDb<ImplementedClass> where ImplementedClass : AbstractEntity
     {
         private readonly IConnectionManager _connectionManager;
-        public AbstractRepositoryDb(IConnectionManager connectionManager)
+        public AbstractRepositoryDbMySQL(IConnectionManager connectionManager)
         {
             _connectionManager = connectionManager;
         }
@@ -21,7 +21,7 @@ namespace CleanArch.Persintence.Abstracts
 
         public IEnumerable<ImplementedClass> GetAll()
         {
-            using (var connection = _connectionManager.GetOpenConnection() as NpgsqlConnection)
+            using (var connection = _connectionManager.GetOpenConnection() as MySqlConnection)
             {
                 string tableName = typeof(ImplementedClass).Name;
                 string query = $"SELECT * FROM {tableName}";
@@ -33,7 +33,7 @@ namespace CleanArch.Persintence.Abstracts
 
         public ImplementedClass GetById(int id)
         {
-            using (var connection = _connectionManager.GetOpenConnection() as NpgsqlConnection)
+            using (var connection = _connectionManager.GetOpenConnection() as MySqlConnection)
             {
                 string tableName = typeof(ImplementedClass).Name;
                 string query = $"SELECT * FROM {tableName} WHERE id = @Id";
@@ -44,7 +44,7 @@ namespace CleanArch.Persintence.Abstracts
 
         public IEnumerable<ImplementedClass> GetByProperty(string propertyName, string propertyValue)
         {
-            using (var connection = _connectionManager.GetOpenConnection() as NpgsqlConnection)
+            using (var connection = _connectionManager.GetOpenConnection() as MySqlConnection)
             {
                 string tableName = typeof(ImplementedClass).Name;
                 string query = $"SELECT * FROM {tableName} WHERE {propertyName} = {propertyValue}";
@@ -56,7 +56,7 @@ namespace CleanArch.Persintence.Abstracts
 
         public void Add(ImplementedClass entity)
         {
-            using (var connection = _connectionManager.GetOpenConnection() as NpgsqlConnection)
+            using (var connection = _connectionManager.GetOpenConnection() as MySqlConnection)
             {
                 string tableName = typeof(ImplementedClass).Name;
                 PropertyInfo[] properties = typeof(ImplementedClass).GetProperties();
@@ -74,7 +74,7 @@ namespace CleanArch.Persintence.Abstracts
 
         public void Remove(ImplementedClass entity)
         {
-            using (var connection = _connectionManager.GetOpenConnection() as NpgsqlConnection)
+            using (var connection = _connectionManager.GetOpenConnection() as MySqlConnection)
             {
                 string tableName = typeof(ImplementedClass).Name;
                 string query = $"DELETE FROM {tableName} WHERE id = @Id";
@@ -85,7 +85,7 @@ namespace CleanArch.Persintence.Abstracts
 
         public void Update(ImplementedClass entity)
         {
-            using (var connection = _connectionManager.GetOpenConnection() as NpgsqlConnection)
+            using (var connection = _connectionManager.GetOpenConnection() as MySqlConnection)
             {
                 string tableName = typeof(ImplementedClass).Name;
                 PropertyInfo[] properties = typeof(ImplementedClass).GetProperties();

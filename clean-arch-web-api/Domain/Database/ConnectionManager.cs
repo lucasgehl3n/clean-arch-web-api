@@ -18,7 +18,7 @@ namespace CleanArch.Domain.Database
 
         public DbConnection GetOpenConnection()
         {
-            this.connection = ConnectionGenerate.BuildConnectionString(dbType);
+            this.connection = BuildConnectionString(dbType);
             DbConnection dbConnection = connection.GetConnection();
             return dbConnection;
         }
@@ -26,6 +26,11 @@ namespace CleanArch.Domain.Database
         public void CloseConnection(DbConnection dbConnection)
         {
             dbConnection.Close();
+        }
+
+        public DatabaseType GetDatabaseType()
+        {
+            return dbType;
         }
     }
 }

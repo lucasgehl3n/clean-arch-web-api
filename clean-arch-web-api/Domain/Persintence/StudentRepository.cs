@@ -1,4 +1,5 @@
-﻿using CleanArch.Domain.Entities;
+﻿using clean_arch_web_api.Domain.Persintence.Abstracts;
+using CleanArch.Domain.Entities;
 using CleanArch.Domain.Interfaces.Database;
 using CleanArch.Domain.Interfaces.Repository;
 using CleanArch.Persintence.Abstracts;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace CleanArch.Persintence
 {
-    public class StudentRepository : AbstractRepositoryDb<Student>, IRepository<Student>, IStudentRepository
+    public class StudentRepository : RepositoryDbManager<Student>, IRepository<Student>, IStudentRepository
     {
         public StudentRepository(IConnectionManager connection) : base(connection)
         {

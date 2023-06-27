@@ -13,9 +13,5 @@ namespace CleanArch.Domain.Interfaces.Database
 		public void OpenConnection();
         public void CloseConnection();
         public DbConnection GetConnection();
-        public void Insert<T>(T entity) where T : AbstractEntity;
-        public void Update<T>(T entity) where T : AbstractEntity;
-        public void Delete<T>(T entity) where T : AbstractEntity;
-        public List<T> Select<T>() where T : AbstractEntity;
     }
 }

@@ -25,7 +25,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 
-builder.Services.AddSingleton<IConnectionManager, ConnectionManager>(provider => new ConnectionManager(DatabaseType.PostgreSQL));
+builder.Services.AddSingleton<IConnectionManager, ConnectionManager>(provider => new ConnectionManager(DatabaseType.MySql));
 builder.Services.AddScoped<IRepository<Course>, CourseRepository>();
 builder.Services.AddScoped<IRepository<Student>, StudentRepository>();
 builder.Services.AddScoped<IRepository<Registration>, RegistrationRepository>();
